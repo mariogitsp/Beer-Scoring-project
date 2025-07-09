@@ -3,6 +3,7 @@ const express = require('express');
 const beerRoutes = require('./routes/beers');
 const reviewRoutes = require('./routes/reviews');
 const authRoutes = require('./routes/auth');
+const protectedRoutes = require('./routes/protected')
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use(express.json());
 app.use('/api/beers', beerRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/private', protectedRoutes)
 
 app.listen(5000, () => {
   console.log('Server is running on port 5000');

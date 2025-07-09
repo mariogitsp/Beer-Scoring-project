@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/',auth, isAdmin, async (req, res) => {
+router.post('/add',auth, isAdmin, async (req, res) => {
   const beer = new Beer({
     name: req.body.name,
     description: req.body.description,
@@ -55,6 +55,20 @@ router.get('/average/:beerId', async (req, res) => {
     res.json({ averageRating: averageRating.toFixed(2), totalReviews });
   } catch (error) {
     res.status(500).json({ error: 'Server error while calculating average rating.' });
+  }
+});
+
+router.delete('/delete/:id', auth, isAdmin, async (req, res) => {
+  try {
+    const deletedBeer = await Beer.findByIdAndDelete(req.params.id);
+
+    if (!deletedBeer) {
+      return res.status(404).json({ message: 'Beer not found' });
+    }
+
+    res.json({ message: 'Beer deleted successfully', beer: deletedBeer });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
 

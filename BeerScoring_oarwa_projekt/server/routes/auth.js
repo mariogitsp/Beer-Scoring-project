@@ -9,7 +9,6 @@ const router = express.Router();
 router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
   
-  console.log("JWT_SECRET: ");
   try {
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ msg: 'User already exists' });
@@ -20,11 +19,11 @@ router.post('/register', async (req, res) => {
     user = new User({ username, email, password});
     await user.save();
 
-    console.log("JWT_SECRET: ", process.env.JWT_SECRET);
     const payload ={
       userId: user._id,
       role: user.role
     };
+    console.log("role: ", user.role);
     const token = jwt.sign(payload, "SeCr3tK3y", {});
 
     res.status(201).json({ 

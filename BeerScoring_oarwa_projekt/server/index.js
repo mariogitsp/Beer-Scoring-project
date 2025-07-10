@@ -3,9 +3,15 @@ const express = require('express');
 const beerRoutes = require('./routes/beers');
 const reviewRoutes = require('./routes/reviews');
 const authRoutes = require('./routes/auth');
-const protectedRoutes = require('./routes/protected')
+const protectedRoutes = require('./routes/protected');
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:5173', // your frontend port
+  credentials: true
+}));
 
 // Spajanje na MongoDB bazu
 mongoose.connect('mongodb://127.0.0.1:27017/BeerScoring')
@@ -14,6 +20,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/BeerScoring')
 
 // Instanca konekcije na bazu
 const db = mongoose.connection;
+
 
 // Upravljanje događajima
 db.on('error', (error) => {

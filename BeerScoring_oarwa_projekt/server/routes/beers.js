@@ -7,11 +7,23 @@ const mongoose = require('mongoose');
 const isAdmin = require('../middleware/isAdmin');
 
 router.get('/', async (req, res) => {
-  console.log("Uzimanje pivi:");
   try {
     const beers = await Beer.find();
     res.json(beers);
   } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const beer = await Beer.findById(req.params.id);
+    if (!beer) {
+      return res.status(404).json({ message: 'Beer not found' });
+    }
+    res.json(beer);
+  }
+  catch (err) {
     res.status(500).json({ message: err.message });
   }
 });

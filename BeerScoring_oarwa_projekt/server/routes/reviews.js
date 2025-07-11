@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 
 //sve recenzije jedne pive
 router.get('/beer/:id', async (req, res) => {
-  console.log(req.params.id);
+  console.log("BeerId iz /beer/id", req.params.id);
   const reviews = await Review.find({beerId: req.params.id}).populate('userId');
   res.json(reviews);
 });
@@ -23,8 +23,9 @@ router.post('/add', auth, async (req, res) => {
   console.log("Usa si u add review");
 
   const { beerId, rating, comment } = req.body;
-  const userId = req.user;
+  const userId = req.user.id;
 
+  console.log("RUserId:", userId);
   console.log("Request body:", req.body);
   
 
@@ -35,7 +36,7 @@ router.post('/add', auth, async (req, res) => {
     }
     const review = new Review({
     beerId: beerId,
-    userId: req.user,
+    userId: userId,
     rating: rating,
     comment: comment
     });

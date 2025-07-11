@@ -1,35 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import LoginRegister from './LoginRegister';
+import BeerDetail from './BeerDetail';
+import { Routes, Route, Navigate, BrowserRouter } from 'react-router-dom';
+import { AuthProvider, useAuth } from './AuthContext';
+import HomePage from './HomePage';
+import Navigation from './Navigation.jsx';
+import UserProfile from './UserProfile.jsx';
+import Footer from './Footer.jsx';
 
-function App() {
-  const [count, setCount] = useState(0)
+function AppContent() {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <div className="loading">Loading...</div>
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <BrowserRouter>
+      <div className='app'>
+        {user && <Navigation />}
+        <Routes>        
+          <Route path="/beer/:id" element={user ? <BeerDetail /> : <Navigate to="/login" />} />
+          <Route path="/login" element={<LoginRegister />} />
+          <Route path="/" element={user ? <HomePage /> : <Navigate to="/login" />} />
+          <Route path='/profile' element={user ? <UserProfile /> : <Navigate to="/login" />} />
+        </Routes>
+
+        {user && <Footer />}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      
+    </BrowserRouter>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   )
 }
 
-export default App
+export default App;

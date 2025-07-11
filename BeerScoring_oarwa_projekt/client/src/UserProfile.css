@@ -1,0 +1,233 @@
+.user-profile {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 2rem 0;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.profile-header {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.profile-header h1 {
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 2.5rem;
+}
+
+.profile-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 2px solid #e9ecef;
+}
+
+.stat-card h3 {
+  font-size: 2rem;
+  color: #3498db;
+  margin-bottom: 0.5rem;
+}
+
+.stat-card p {
+  color: #7f8c8d;
+  font-weight: 600;
+  margin: 0;
+}
+
+.reviews-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.reviews-section h2 {
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.no-reviews {
+  text-align: center;
+  padding: 3rem;
+  color: #7f8c8d;
+}
+
+.no-reviews p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.browse-beers-btn {
+  display: inline-block;
+  background-color: #3498db;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.browse-beers-btn:hover {
+  background-color: #2980b9;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.review-card {
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: box-shadow 0.3s;
+}
+
+.review-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.beer-info {
+  flex: 1;
+}
+
+.beer-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s;
+}
+
+.beer-link:hover {
+  color: #3498db;
+}
+
+.beer-thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.beer-link h4 {
+  margin: 0 0 0.5rem 0;
+  color: #2c3e50;
+  font-size: 1.2rem;
+}
+
+.review-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #f39c12;
+}
+
+.rating-number {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.review-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-btn {
+  background-color: #f39c12;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.edit-btn:hover {
+  background-color: #e67e22;
+}
+
+.delete-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}
+
+.review-comment {
+  color: #2c3e50;
+  line-height: 1.6;
+  margin: 0;
+  font-style: italic;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+}
+
+.error {
+  color: #e74c3c;
+}
+
+@media (max-width: 768px) {
+  .profile-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .review-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .beer-link {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .review-actions {
+    align-self: stretch;
+    justify-content: center;
+  }
+}

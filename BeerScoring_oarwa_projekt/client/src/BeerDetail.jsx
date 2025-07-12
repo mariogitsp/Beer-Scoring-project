@@ -4,6 +4,8 @@ import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { useAuth } from "./AuthContext"
 import "./BeerDetail.css"
+import Loader from "./Loader"
+import UserReviewList from "./UserReviewList"
 
 const BeerDetail = () => {
   const { id } = useParams()
@@ -161,7 +163,7 @@ const BeerDetail = () => {
 
   const userHasReviewed = reviews.some((review) => review.userId._id === user.id)
 
-  if (loading) return <div className="loading">Loading...</div>
+  if (loading) return <Loader message="Loading beer details..." />
   if (error) return <div className="error">{error}</div>
   if (!beer) return <div className="error">Beer not found</div>
 
@@ -242,38 +244,13 @@ const BeerDetail = () => {
             </form>
           )}
 
-          <div className="reviews-list">
-            {reviews.length === 0 ? (
-              <p className="no-reviews">No reviews yet. Be the first to review this beer!</p>
-            ) : (
-              reviews.map((review) => (
-                <div key={review._id} className="review-card">
-                  <div className="review-header">
-                    <div className="reviewer-info">
-                      <span className="reviewer-name">{review.userId.username}</span>
-                      <div className="review-rating">
-                        {"★".repeat(Math.round(review.rating || 0)/2)}
-                        {"☆".repeat(5 - Math.round(review.rating || 0)/2)}
-                      </div>
-                    </div>
-                    <div className="review-actions">
-                      {canEditReview(review) && (
-                        <button onClick={() => startEditReview(review)} className="edit-btn">
-                          Edit
-                        </button>
-                      )}
-                      {canDeleteReview(review) && (
-                        <button onClick={() => handleDeleteReview(review._id)} className="delete-btn">
-                          Delete
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                  <p className="review-comment">{review.comment}</p>
-                </div>
-              ))
-            )}
-          </div>
+          <UserReviewList
+            reviews={reviews}
+            currentUser={user}
+            onEdit={startEditReview}
+            onDelete={handleDeleteReview}
+            showBeerInfo={false}
+          />
         </div>
       </div>
     </div>

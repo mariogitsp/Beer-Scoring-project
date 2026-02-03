@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { useAuth } from "./AuthContext"
 import "./HomePage.css"
+import BeerList from "./BeerList"
 
 const HomePage = () => {
   const [beers, setBeers] = useState([])
@@ -53,6 +54,30 @@ const HomePage = () => {
     }
   }
 
+  const handleDeleteBeer = async (beerId) => {
+    if (!window.confirm("Are you sure you want to delete this beer? This will also delete all reviews for this beer."))
+      return
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/beers/delete/${beerId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      })
+
+      if (response.ok) {
+        // Remove the deleted beer from the state
+        setBeers(beers.filter((beer) => beer._id !== beerId))
+      } else {
+        const data = await response.json()
+        setError(data.message || "Failed to delete beer")
+      }
+    } catch (error) {
+      setError("Network error")
+    }
+  }
+
   if (loading) return <div className="loading">Loading beers...</div>
   if (error) return <div className="error">{error}</div>
 
@@ -60,37 +85,15 @@ const HomePage = () => {
     <div className="home-page">
       <div className="container">
         <h1 className="page-title">🍺 Beer Collection</h1>
-
-        {beers.length === 0 ? (
-          <div className="no-beers">
-            <p>No beers available yet.</p>
-          </div>
-        ) : (
-          <div className="beer-grid">
-            {beers.map((beer) => (
-              <Link to={`/beer/${beer._id}`} key={beer._id} className="beer-card-link">
-                <div className="beer-card">
-                  <div className="beer-image">
-                    <img src={beer.image || "/placeholder.svg"} alt={beer.name} />
-                  </div>
-                  <div className="beer-info">
-                    <h3 className="beer-name">{beer.name}</h3>
-                    <p className="beer-description">{beer.description}</p>
-                    <div className="beer-rating">
-                      <div className="rating-stars">
-                        {"★".repeat(Math.round(beer.averageRating || 0)/2)}
-                        {"☆".repeat(5 - Math.round(beer.averageRating || 0)/2)}
-                      </div>
-                      <span className="rating-text">
-                        {beer.averageRating || 0}/10 ({beer.totalReviews || 0} reviews)
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
+        <div className="add-beer-section">
+          {user.role === "admin" && (
+            <Link to="/add-beer" className="add-beer-btn">
+              + Add New Beer
+            </Link>
+          )}
+        </div>
+        
+        <BeerList beers={beers} onDelete={handleDeleteBeer} isAdmin={user.role === "admin"} />
       </div>
     </div>
   )

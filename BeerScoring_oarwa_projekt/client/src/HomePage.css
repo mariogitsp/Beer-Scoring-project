@@ -5,7 +5,7 @@
 }
 
 .container {
-  max-width: 1200px;
+  /* max-width: 1200px; */
   margin: 0 auto;
   padding: 0 2rem;
 }
@@ -97,4 +97,26 @@
 .rating-text {
   color: #7f8c8d;
   font-size: 0.9rem;
+}
+
+.add-beer-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.add-beer-btn {
+  background-color: #27ae60;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.add-beer-btn:hover {
+  background-color: #219150;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }

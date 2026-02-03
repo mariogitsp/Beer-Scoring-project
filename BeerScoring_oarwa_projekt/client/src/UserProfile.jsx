@@ -25,8 +25,7 @@ const UserProfile = () => {
 
       if (response.ok) {
         const allReviews = await response.json()
-        // Filter reviews to show only current user's reviews
-        const myReviews = allReviews.filter((review) => review.userId._id === user.id)
+        const myReviews = allReviews.filter((review) => review.userId?._id === user.id)
         setUserReviews(myReviews)
       } else {
         setError("Failed to fetch reviews")
@@ -106,26 +105,41 @@ const UserProfile = () => {
                 <div key={review._id} className="review-card">
                   <div className="review-header">
                     <div className="beer-info">
-                      <Link to={`/beer/${review.beerId._id}`} className="beer-link">
-                        <img
-                          src={review.beerId.image || "/placeholder.svg"}
-                          alt={review.beerId.name}
-                          className="beer-thumbnail"
-                        />
-                        <div>
-                          <h4>{review.beerId.name}</h4>
-                          <div className="review-rating">
-                            {"★".repeat(review.rating/2)}
-                            {"☆".repeat(5 - review.rating/2)}
-                            <span className="rating-number">({review.rating}/10)</span>
+                      {review.beerId ? (
+                        <Link to={`/beer/${review.beerId._id}`} className="beer-link">
+                          <img
+                            src={review.beerId.image || "/placeholder.svg"}
+                            alt={review.beerId.name}
+                            className="beer-thumbnail"
+                          />
+                          <div>
+                            <h4>{review.beerId.name}</h4>
+                            <div className="review-rating">
+                              {"★".repeat(review.rating / 2)}
+                              {"☆".repeat(5 - review.rating / 2)}
+                              <span className="rating-number">({review.rating}/10)</span>
+                            </div>
+                          </div>
+                        </Link>
+                      ) : (
+                        <div className="beer-link missing-beer">
+                          <img
+                            src="/placeholder.svg"
+                            alt="Beer missing"
+                            className="beer-thumbnail"
+                          />
+                          <div>
+                            <h4>Deleted Beer</h4>
                           </div>
                         </div>
-                      </Link>
+                      )}
                     </div>
                     <div className="review-actions">
-                      <Link to={`/beer/${review.beerId._id}`} className="edit-btn">
-                        Edit
-                      </Link>
+                      {review.beerId && (
+                        <Link to={`/beer/${review.beerId._id}`} className="edit-btn">
+                          Edit
+                        </Link>
+                      )}
                       <button onClick={() => handleDeleteReview(review._id)} className="delete-btn">
                         Delete
                       </button>

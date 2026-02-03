@@ -8,6 +8,7 @@ import HomePage from './HomePage';
 import Navigation from './Navigation.jsx';
 import UserProfile from './UserProfile.jsx';
 import Footer from './Footer.jsx';
+import AddBeer from './AddBeer.jsx';
 
 function AppContent() {
   const { user, loading } = useAuth();
@@ -18,13 +19,14 @@ function AppContent() {
 
   return (
     <BrowserRouter>
-      <div className='app'>
+      <div className='app-container'>
         {user && <Navigation />}
         <Routes>        
           <Route path="/beer/:id" element={user ? <BeerDetail /> : <Navigate to="/login" />} />
           <Route path="/login" element={<LoginRegister />} />
           <Route path="/" element={user ? <HomePage /> : <Navigate to="/login" />} />
           <Route path='/profile' element={user ? <UserProfile /> : <Navigate to="/login" />} />
+          <Route path="/add-beer" element={user && user.role === "admin" ? <AddBeer /> : <Navigate to="/" />} />
         </Routes>
 
         {user && <Footer />}

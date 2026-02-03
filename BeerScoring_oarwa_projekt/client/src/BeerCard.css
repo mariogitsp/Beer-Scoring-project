@@ -1,6 +1,11 @@
+.beer-card-wrapper {
+  position: relative;
+}
+
 .beer-card-link {
   text-decoration: none;
   color: inherit;
+  display: block;
 }
 
 .beer-card {
@@ -24,8 +29,8 @@
 
 .beer-image img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: 100%; 
+  object-fit: contain;
 }
 
 .beer-info {
@@ -59,4 +64,33 @@
 .rating-text {
   color: #7f8c8d;
   font-size: 0.9rem;
+}
+
+.delete-beer-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.delete-beer-btn:hover {
+  background-color: #c0392b;
+  transform: scale(1.1);
+}
+
+.delete-beer-btn:active {
+  transform: scale(0.95);
 }

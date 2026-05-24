@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { useAuth } from "./AuthContext"
+import { apiUrl } from "./api"
 import "./HomePage.css"
 import BeerList from "./BeerList"
 
@@ -18,7 +19,7 @@ const HomePage = () => {
 
   const fetchBeers = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/beers")
+      const response = await fetch(apiUrl("/api/beers"))
       if (response.ok) {
         const data = await response.json()
 
@@ -26,7 +27,7 @@ const HomePage = () => {
         const beersWithRatings = await Promise.all(
           data.map(async (beer) => {
             try {
-              const ratingResponse = await fetch(`http://localhost:5000/api/beers/average/${beer._id}`)
+              const ratingResponse = await fetch(apiUrl(`/api/beers/average/${beer._id}`))
               const ratingData = await ratingResponse.json()
               return {
                 ...beer,
@@ -59,7 +60,7 @@ const HomePage = () => {
       return
 
     try {
-      const response = await fetch(`http://localhost:5000/api/beers/delete/${beerId}`, {
+      const response = await fetch(apiUrl(`/api/beers/delete/${beerId}`), {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${user.token}`,

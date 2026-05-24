@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
 const router = express.Router();
+const JWT_SECRET = process.env.JWT_SECRET || 'dev-only-secret';
 
 router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
@@ -24,7 +25,7 @@ router.post('/register', async (req, res) => {
       role: user.role
     };
     console.log("role: ", user.role);
-    const token = jwt.sign(payload, "SeCr3tK3y", {});
+    const token = jwt.sign(payload, JWT_SECRET, {});
 
     res.status(201).json({ 
         message: 'User created',
@@ -48,7 +49,7 @@ router.post('/login', async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-    const token = jwt.sign({ userId: user._id, role: user.role}, 'SeCr3tK3y');
+    const token = jwt.sign({ userId: user._id, role: user.role}, JWT_SECRET);
     console.log("Role is: ", user.role);
     res.json({ 
       token,

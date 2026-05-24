@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "./AuthContext"
+import { apiUrl } from "./api"
 import "./AddBeer.css"
 
 const AddBeer = () => {
@@ -49,7 +50,7 @@ const AddBeer = () => {
     setLoading(true)
 
     try {
-      const response = await fetch("http://localhost:5000/api/beers/add", {
+      const response = await fetch(apiUrl("/api/beers/add"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { apiUrl } from './api';
 import './LoginRegister.css';
 
 const LoginRegister = () => {
@@ -57,7 +58,7 @@ const LoginRegister = () => {
     setLoading(true);
     
     try {
-      const endpoint = isLogin ? 'http://localhost:5000/api/auth/login' : 'http://localhost:5000/api/auth/register';
+      const endpoint = isLogin ? apiUrl('/api/auth/login') : apiUrl('/api/auth/register');
       const payload = isLogin
   ? { email: formData.email, password: formData.password }
   : { username: formData.username, email: formData.email, password: formData.password };

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { useAuth } from "./AuthContext"
+import { apiUrl } from "./api"
 import "./UserProfile.css"
 
 const UserProfile = () => {
@@ -17,7 +18,7 @@ const UserProfile = () => {
 
   const fetchUserReviews = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/reviews", {
+      const response = await fetch(apiUrl("/api/reviews"), {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -41,7 +42,7 @@ const UserProfile = () => {
     if (!window.confirm("Are you sure you want to delete this review?")) return
 
     try {
-      const response = await fetch(`http://localhost:5000/api/reviews/${reviewId}`, {
+      const response = await fetch(apiUrl(`/api/reviews/${reviewId}`), {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${user.token}`,

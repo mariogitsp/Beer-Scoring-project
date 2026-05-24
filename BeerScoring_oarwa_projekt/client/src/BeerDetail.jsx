@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { useAuth } from "./AuthContext"
+import { apiUrl } from "./api"
 import "./BeerDetail.css"
 import Loader from "./Loader"
 import UserReviewList from "./UserReviewList"
@@ -35,7 +36,7 @@ const BeerDetail = () => {
 
   const fetchBeerDetails = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/beers/${id}`)
+      const response = await fetch(apiUrl(`/api/beers/${id}`))
       const currentBeer = await response.json();
       setBeer(currentBeer);
       if (!response.ok) {
@@ -49,7 +50,7 @@ const BeerDetail = () => {
   const fetchReviews = async () => {
     try {
         console.log("Beer ID:", id);
-      const response = await fetch(`http://localhost:5000/api/reviews/beer/${id}`)
+      const response = await fetch(apiUrl(`/api/reviews/beer/${id}`))
       if (response.ok) {
         const data = await response.json()
         console.log("Fetched reviews:", data)
@@ -65,7 +66,7 @@ const BeerDetail = () => {
   const fetchAverageRating = async () => {
     try {
         console.log("Fetching average rating for beer ID:", id);
-      const response = await fetch(`http://localhost:5000/api/beers/average/${id}`)
+      const response = await fetch(apiUrl(`/api/beers/average/${id}`))
       if (response.ok) {
         const data = await response.json()
         console.log("Average rating data:", data);
@@ -83,8 +84,8 @@ const BeerDetail = () => {
 
     try {
       const url = editingReview
-        ? `http://localhost:5000/api/reviews/${editingReview._id}`
-        : "http://localhost:5000/api/reviews/add"
+        ? apiUrl(`/api/reviews/${editingReview._id}`)
+        : apiUrl("/api/reviews/add")
 
       const method = editingReview ? "PUT" : "POST"
       const body = editingReview
@@ -119,7 +120,7 @@ const BeerDetail = () => {
     if (!window.confirm("Are you sure you want to delete this review?")) return
 
     try {
-      const response = await fetch(`http://localhost:5000/api/reviews/${reviewId}`, {
+      const response = await fetch(apiUrl(`/api/reviews/${reviewId}`), {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${user.token}`,

@@ -15,35 +15,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
-  try {
-    const beer = await Beer.findById(req.params.id);
-    if (!beer) {
-      return res.status(404).json({ message: 'Beer not found' });
-    }
-    res.json(beer);
-  }
-  catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-router.post('/add',auth, isAdmin, async (req, res) => {
-  const beer = new Beer({
-    name: req.body.name,
-    description: req.body.description,
-    image: req.body.image,
-    avgRating: req.body.avgRating
-  });
-
-  try {
-    const newBeer = await beer.save();
-    res.status(201).json(newBeer);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
-
 router.get('/average/:beerId', async (req, res) => {
   try {
     const beerId = req.params.beerId;
@@ -67,6 +38,35 @@ router.get('/average/:beerId', async (req, res) => {
     res.json({ averageRating: averageRating.toFixed(2), totalReviews });
   } catch (error) {
     res.status(500).json({ error: 'Server error while calculating average rating.' });
+  }
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const beer = await Beer.findById(req.params.id);
+    if (!beer) {
+      return res.status(404).json({ message: 'Beer not found' });
+    }
+    res.json(beer);
+  }
+  catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.post('/add', auth, isAdmin, async (req, res) => {
+  const beer = new Beer({
+    name: req.body.name,
+    description: req.body.description,
+    image: req.body.image,
+    avgRating: req.body.avgRating
+  });
+
+  try {
+    const newBeer = await beer.save();
+    res.status(201).json(newBeer);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
 });
 
